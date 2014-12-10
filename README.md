@@ -31,4 +31,4 @@ Contact [Camilo Valdes](mailto:cvaldes3@miami.edu) for pull requests, bug report
 
 ## License
 
-The software in this repository is available under the MIT License (MIT).  See the LICENSE file for more information.
+The software in this repository is available under the MIT License (MIT).  See the [LICENSE file](https://github.com/camilo-v/Bioinformatics/blob/master/LICENSE.md) for more information.
