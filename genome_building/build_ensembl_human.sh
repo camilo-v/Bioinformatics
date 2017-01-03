@@ -135,7 +135,28 @@ echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 bowtie2-build -f $FASTA_FILE_DNA $FASTA_FILE_NAME_DNA
 
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
-echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Indexing Complete."
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Genome Indexing Complete."
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
+
+
+# --------------------------------------------------- Transcriptome Index ---------------------------------------------------
+#
+#	Index the transcriptome GTF file with Tophat
+#
+
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Starting Tophat Transcriptome indexing..."
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
+
+cd $GTF_DIR
+
+TRANSCRIPTOME_INDEX=$GTF_DIR'/transcriptome_index/known'
+
+tophat -G $GTF_FILE_NAME --transcriptome-index $TRANSCRIPTOME_INDEX $FASTA_FILE_NAME_DNA
+
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Transcriptome Indexing Complete."
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
+
 
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
