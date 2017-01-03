@@ -158,6 +158,27 @@ echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Transcriptome Indexing Complete."
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 
 
+# --------------------------------------------------- Kallisto Index ---------------------------------------------------
+#
+#	Build a Kallisto index for the Human CDNA transcripts
+#
+
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Starting Kallisto indexing..."
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
+
+KALLISTO_INDEX_NAME='kallisto_ensembl_human_'$ENSEMBL_VERSION
+KALLISTO_OUTPUT_DIR=$CDNA_DIR'/kallisto'
+mkdir -p $KALLISTO_OUTPUT_DIR
+
+cd $KALLISTO_OUTPUT_DIR
+
+kallisto index --index=$KALLISTO_INDEX_NAME $CDNA_FILE_NAME
+
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Transcriptome Indexing Complete."
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
+
+
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Done."
