@@ -10,11 +10,13 @@ echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 
 #	Ensembl version
 ENSEMBL_VERSION='87'
+SPECIES='homo_sapiens'
 
 #
 #	Local Directory Targets
 #
-PROJECT_BASE_DIR='/biorg/references/human/ensembl'
+PROJECT_BASE_DIR='/biorg/references/ensembl/'$SPECIES
+mkdir -p $PROJECT_BASE_DIR
 
 #
 #	Local Directory Targets
@@ -41,15 +43,15 @@ mkdir -p $NCRNA_DIR
 
 GTF_FILE_NAME='Homo_sapiens.GRCh38.'$ENSEMBL_VERSION'.gtf'
 GTF_FILE_NAME_COMPRESSED=$GTF_FILE_NAME'.gz'
-URL_FOR_GTF='ftp://ftp.ensembl.org//pub/release-'$ENSEMBL_VERSION'/gtf/homo_sapiens/'$GTF_FILE_NAME_COMPRESSED
+URL_FOR_GTF='ftp://ftp.ensembl.org//pub/release-'$ENSEMBL_VERSION'/gtf/'$SPECIES'/'$GTF_FILE_NAME_COMPRESSED
 
 CDNA_FILE_NAME='Homo_sapiens.GRCh38.cdna.all.fa'
 CDNA_FILE_NAME_COMPRESSED=$CDNA_FILE_NAME'.gz'
-URL_FOR_CDNA='ftp://ftp.ensembl.org//pub/release-'$ENSEMBL_VERSION'/fasta/homo_sapiens/cdna/'$CDNA_FILE_NAME_COMPRESSED
+URL_FOR_CDNA='ftp://ftp.ensembl.org//pub/release-'$ENSEMBL_VERSION'/fasta/'$SPECIES'/cdna/'$CDNA_FILE_NAME_COMPRESSED
 
 NCRNA_FILE_NAME='Homo_sapiens.GRCh38.ncrna.fa'
 NCRNA_FILE_NAME_COMPRESSED=$NCRNA_FILE_NAME'.gz'
-URL_FOR_NCRNA='ftp://ftp.ensembl.org//pub/release-'$ENSEMBL_VERSION'/fasta/homo_sapiens/ncrna/'$NCRNA_FILE_NAME_COMPRESSED
+URL_FOR_NCRNA='ftp://ftp.ensembl.org//pub/release-'$ENSEMBL_VERSION'/fasta/'$SPECIES'/ncrna/'$NCRNA_FILE_NAME_COMPRESSED
 
 
 # ----------------------------------------------------- Download ------------------------------------------------------
@@ -132,7 +134,9 @@ echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Starting Bowtie2 indexing..."
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 
-bowtie2-build -f $FASTA_FILE_DNA $FASTA_FILE_NAME_DNA
+FASTA_FILE_NAME_DNA_WITH_LOCAL_PATH=$DNA_DIR'/'$FASTA_FILE_NAME_DNA
+
+bowtie2-build -f $FASTA_FILE_DNA $FASTA_FILE_NAME_DNA_WITH_LOCAL_PATH
 
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Genome Indexing Complete."
@@ -151,10 +155,12 @@ cd $GTF_DIR
 
 TRANSCRIPTOME_INDEX=$GTF_DIR'/transcriptome_index/known'
 
-tophat -G $GTF_FILE_NAME --transcriptome-index $TRANSCRIPTOME_INDEX $FASTA_FILE_NAME_DNA
+GTF_FILE_NAME_WITH_LOCAL_PATH=$GTF_DIR'/'$GTF_FILE_NAME
+
+tophat -G $GTF_FILE_NAME_WITH_LOCAL_PATH --transcriptome-index $TRANSCRIPTOME_INDEX $FASTA_FILE_NAME_DNA_WITH_LOCAL_PATH
 
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
-echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Transcriptome Indexing Complete."
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "] TopHat Transcriptome Indexing Complete."
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 
 
@@ -172,10 +178,12 @@ mkdir -p $KALLISTO_OUTPUT_DIR
 
 cd $KALLISTO_OUTPUT_DIR
 
-kallisto index --index=$KALLISTO_INDEX_NAME $CDNA_FILE_NAME
+CDNA_FILE_NAME_WITH_LOCAL_PATH=$CDNA_DIR'/'$CDNA_FILE_NAME
+
+kallisto index --index=$KALLISTO_INDEX_NAME $CDNA_FILE_NAME_WITH_LOCAL_PATH
 
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
-echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Transcriptome Indexing Complete."
+echo "[" `date '+%m/%d/%y %H:%M:%S'` "] Kallisto Transcriptome Indexing Complete."
 echo "[" `date '+%m/%d/%y %H:%M:%S'` "]"
 
 
