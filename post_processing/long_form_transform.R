@@ -94,7 +94,7 @@ print( paste( "[", format(Sys.time(), "%m/%d/%y %H:%M:%S"),"] ", sep="") )
 #	Output
 #
 outputFile = paste(working_directory, "/path/to/output/file/human_expression-long.txt", sep="" )
-write.table( meltedLongDataFrame, file=outputFile, sep="\t")
+write.table( meltedLongDataFrame, file=outputFile, row.names=FALSE, quote=FALSE, sep="\t")
 
 
 # ------------------------------------------------------ END ---------------------------------------------------------
